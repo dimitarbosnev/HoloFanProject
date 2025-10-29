@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.Experimental.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 public class CMGTFanManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,9 +33,9 @@ public class CMGTFanManager : MonoBehaviour
         Task task_start = Task.Run(() =>
         {
             Fan.Connect();
-            Thread.Sleep(100);
+            Thread.Sleep(300);
             Fan.PowerOn();
-            Thread.Sleep(100);
+            Thread.Sleep(300);
             Fan.StartProjection();
             Debug.Log("Connected");
         });
@@ -45,18 +46,21 @@ public class CMGTFanManager : MonoBehaviour
         {
             if (Fan.isProjecting)
             {
-                RenderTexture.active = fanTexture;
+                RenderTexture flippedRT = new RenderTexture(fanTexture.width, fanTexture.height, 0);
+                Graphics.Blit(fanTexture, flippedRT, new Vector2(1, -1), new Vector2(0, 1));
+
+                RenderTexture.active = flippedRT;
                 Texture2D tex = new Texture2D(fanTexture.width, fanTexture.height, TextureFormat.RGB24, false);
-                tex.ReadPixels(new Rect(0, 0, fanTexture.width, fanTexture.height), 0, 0);
+                tex.ReadPixels(new Rect(0, 0, fanTexture.width, fanTexture.height), 0, 0, false);
                 tex.Apply();
 
                 byte[] bytes = tex.GetRawTextureData();
                 RenderTexture.active = null;
-
+                
                 byte[] array = Jpeg.bytesToJpeg(bytes, fanTexture.width, fanTexture.height, 30);
                 Fan.ProjectOnDisplay(in array);
             }
-            yield return new WaitForSecondsRealtime(0.08f);
+            yield return new WaitForSecondsRealtime(0.04f);
         }
     }
 
@@ -68,9 +72,9 @@ public class CMGTFanManager : MonoBehaviour
         Task task_end = Task.Run(() =>
         {
             Fan.EndProjection();
-            Thread.Sleep(200);
+            Thread.Sleep(300);
             Fan.PowerOff();
-            Thread.Sleep(200);
+            Thread.Sleep(300);
             Fan.Disconnect();
             Debug.Log("Disconnected");
         });
