@@ -5,6 +5,7 @@ using UnityEngine.Experimental.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Security.Cryptography;
 public class CMGTFanManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,6 +62,19 @@ public class CMGTFanManager : MonoBehaviour
                 Fan.ProjectOnDisplay(in array);
             }
             yield return new WaitForSecondsRealtime(0.04f);
+        }
+    }
+
+    void Update()
+    {
+        
+        if (Input.GetKey(KeyCode.W))
+        {
+            Fan.PowerOn();
+        }
+        if (Input.GetKey(KeyCode.V))
+        {
+            Fan.StartProjection();
         }
     }
 

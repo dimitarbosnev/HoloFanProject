@@ -23,7 +23,7 @@ namespace CMGT
 
         //TCP Connection
         public static readonly IPAddress TCP_SERVER_IP = IPAddress.Parse("10.10.10.1");
-        public static readonly IPAddress TCP_SERVER_NETCARD = IPAddress.Parse("10.10.10.3");
+        public static readonly IPAddress TCP_SERVER_NETCARD = IPAddress.Parse("10.10.10.2");
         public const int TCP_SERVER_PORT_1 = 50110;
         public const int TCP_SERVER_PORT_2 = 50115;
         private static Socket socket_1;
