@@ -12,7 +12,7 @@ public class WheelSpin : MonoBehaviour
     [SerializeField] private int num_of_value = 6;
     [SerializeField, ReadOnly(true)] private int value = 0;
 
-    private bool isRunning;
+    private bool isRunning = false;
     void Start()
     {
 
@@ -34,6 +34,16 @@ public class WheelSpin : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.S) && !isRunning)
+        {
+            float force = Random.Range(spin_force_min, spin_force_max);
+            isRunning = true;
+            StartCoroutine("WheelSpinProc", force);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("PhysicalHands") && !isRunning)
         {
             float force = Random.Range(spin_force_min, spin_force_max);
             isRunning = true;
