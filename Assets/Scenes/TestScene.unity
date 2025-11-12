@@ -192,7 +192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1234652847329689333, guid: 710c6a51e481b5a419c8c7a3eae1bada, type: 3}
       propertyPath: _contactMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1234652847329689333, guid: 710c6a51e481b5a419c8c7a3eae1bada, type: 3}
       propertyPath: _inputProvider
@@ -207,7 +207,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1234652847329689332, guid: 710c6a51e481b5a419c8c7a3eae1bada, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1119249351}
+      addedObject: {fileID: 1228813242}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 710c6a51e481b5a419c8c7a3eae1bada, type: 3}
 --- !u!114 &345899841 stripped
@@ -5008,7 +5008,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1119249350
+--- !u!1 &1228813241
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5016,22 +5016,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1119249351}
-  - component: {fileID: 1119249352}
+  - component: {fileID: 1228813242}
+  - component: {fileID: 1228813243}
   m_Layer: 0
-  m_Name: HardContact
+  m_Name: SoftContact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1119249351
+--- !u!4 &1228813242
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119249350}
+  m_GameObject: {fileID: 1228813241}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 9.5}
@@ -5040,35 +5040,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 345899842}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1119249352
+--- !u!114 &1228813243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119249350}
+  m_GameObject: {fileID: 1228813241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 751b0fa5afa099c43854eca01d767798, type: 3}
+  m_Script: {fileID: 11500000, guid: 865fab10961c2ff41af47a34e34f43a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   physicalHandsManager: {fileID: 345899841}
-  physicsMaterial: {fileID: 0}
-  maxPalmVelocity: 300
-  minFingerVelocity: 50
-  maxFingerVelocity: 200
-  teleportDistance: 0.1
-  boneMass: 0.1
-  boneStiffness: 100
-  grabbedBoneStiffness: 10
-  boneDamping: 1
-  useProjectPhysicsIterations: 0
-  handSolverIterations: 30
-  handSolverVelocityIterations: 20
-  contactEnterDistance: 0.002
-  contactExitDistance: 0.012
-  contactThumbEnterDistance: 0.005
-  contactThumbExitDistance: 0.02
+  _physicsMaterial: {fileID: 0}
 --- !u!1001 &4721252329882096059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5135,11 +5120,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1599135942133145903, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
       propertyPath: spin_force_max
-      value: 1000
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1599135942133145903, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
       propertyPath: spin_force_min
-      value: 500
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599135942133145903, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
+      propertyPath: spin_threshold
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5144402257835997798, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
       propertyPath: m_Name
@@ -5152,6 +5141,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8933040264530295943, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4721252329882096064}
+    - targetCorrespondingSourceObject: {fileID: 8933040264530295943, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4721252329882096067}
   m_SourcePrefab: {fileID: 100100000, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
 --- !u!1 &4721252329882096060 stripped
 GameObject:
@@ -5173,12 +5165,39 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.7, y: 1.7, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4721252329882096067
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4721252329882096060}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 62
+  m_CollisionDetection: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

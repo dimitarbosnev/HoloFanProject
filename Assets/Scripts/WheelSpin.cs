@@ -11,11 +11,15 @@ public class WheelSpin : MonoBehaviour
 
     [SerializeField] private int num_of_value = 6;
     [SerializeField, ReadOnly(true)] private int value = 0;
-
+    [SerializeField, ReadOnly(true)] private Vector3 torque;
     private bool isRunning = false;
+    private Rigidbody rb;
+    private BoxCollider collider;
+
     void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
+        collider = GetComponent<BoxCollider>();
     }
     
     IEnumerator WheelSpinProc(float spin_force)
@@ -33,21 +37,49 @@ public class WheelSpin : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S) && !isRunning)
+        if (Mathf.Abs(rb.angularVelocity.z) > spin_force_min && !isRunning)
         {
-            float force = Random.Range(spin_force_min, spin_force_max);
+            Debug.Log("Running");
             isRunning = true;
-            StartCoroutine("WheelSpinProc", force);
+            collider.enabled = false;
+        }
+        else if (Mathf.Abs(rb.angularVelocity.z) < spin_threshold && isRunning)
+        {
+            float sction_degrees = 360 / num_of_value;
+            value = (int)(transform.eulerAngles.z / sction_degrees);
+            rb.angularVelocity = Vector3.zero;
+            isRunning = false;
+            collider.enabled = true;
+            Debug.Log("Stop");
+        }
+
+
+        torque = rb.angularVelocity;
+
+
+        //if (Input.GetKeyDown(KeyCode.S) && !isRunning)
+        //{
+        //    float force = Random.Range(spin_force_min, spin_force_max);
+        //    isRunning = true;
+        //    StartCoroutine("WheelSpinProc", force);
+        //}
+    }
+
+    void FixedUpdate()
+    {
+        if (isRunning)
+        {
+            rb.angularVelocity = Vector3.forward * rb.angularVelocity.z * spin_friction;
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("PhysicalHands") && !isRunning)
-        {
-            float force = Random.Range(spin_force_min, spin_force_max);
-            isRunning = true;
-            StartCoroutine("WheelSpinProc", force);
-        }
+        //if(other.gameObject.layer == LayerMask.NameToLayer("PhysicalHands") && !isRunning)
+        //{
+        //    float force = Random.Range(spin_force_min, spin_force_max);
+        //    isRunning = true;
+        //    StartCoroutine("WheelSpinProc", force);
+        //}
     }
 }
