@@ -23,7 +23,7 @@ namespace CMGT
 
         //TCP Connection
         public static readonly IPAddress TCP_SERVER_IP = IPAddress.Parse("10.10.10.1");
-        public static readonly IPAddress TCP_SERVER_NETCARD = IPAddress.Parse("10.10.10.2");
+        public static IPAddress TCP_SERVER_NETCARD;
         public const int TCP_SERVER_PORT_1 = 50110;
         public const int TCP_SERVER_PORT_2 = 50115;
         private static Socket socket_1;
@@ -82,7 +82,20 @@ namespace CMGT
 
                 IPEndPoint? sender = null;
                 byte[] recived = udpListener.Receive(ref sender);
-                Console.WriteLine(recived);
+                Console.WriteLine(recived.ToString());
+                //Get Current IP Address
+                string ip = string.Concat(new string[]
+				{
+					recived[39].ToString(),
+					".",
+					recived[40].ToString(),
+					".",
+					recived[41].ToString(),
+					".",
+					recived[42].ToString()
+				});
+                TCP_SERVER_NETCARD = IPAddress.Parse(ip);
+
                 socket_1 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket_1.SendBufferSize = 1024;
                 socket_1.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 10000);

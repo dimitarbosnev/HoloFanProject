@@ -4,8 +4,6 @@ using System.Collections;
 using UnityEngine.Experimental.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Security.Cryptography;
 public class CMGTFanManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
