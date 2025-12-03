@@ -165,6 +165,7 @@ namespace CMGT
         {
             EndProjection();
             socket_1.Close();
+            udpListener.Close();
             isConnected = false;
         }
 
