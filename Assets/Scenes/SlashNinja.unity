@@ -153,9 +153,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6061091750627068648, guid: e8d37f4a110a7b84bbc78c5e12c7d3ac, type: 3}
   timeMinMax: {x: 0.3, y: 1}
-  size: {x: 1, y: 1, z: 1}
-  forceMin: {x: -1, y: 3}
-  forceMax: {x: 1, y: 4}
+  size: {x: 0.8, y: 1, z: 1}
+  forceMin: {x: -0.3, y: 3}
+  forceMax: {x: 0.3, y: 4}
 --- !u!4 &316491022
 Transform:
   m_ObjectHideFlags: 0
