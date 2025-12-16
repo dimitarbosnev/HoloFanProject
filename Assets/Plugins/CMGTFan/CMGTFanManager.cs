@@ -4,13 +4,23 @@ using System.Collections;
 using UnityEngine.Experimental.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 public class CMGTFanManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //public byte[][] imageBuffer = new byte[2]{new byte[], new byte[]};
-    public RenderTexture fanTexture;
-    public Camera targetCamera;
-    public bool isRunning;
+    private static CMGTFanManager instance = null;
+    public static CMGTFanManager Instance => instance;
+    void Awake()
+    {
+        if(instance == null) instance = this;
+        else Destroy(this);
+    }
+
+    [HideInInspector] public RenderTexture fanTexture;
+    [HideInInspector] public Camera targetCamera;
+    [HideInInspector] public bool isRunning;
+    public int transmissionDelay = 40;
+
+    public event Action OnTransmition;
     void Start()
     {
         fanTexture = new RenderTexture(Fan.TextureSize, Fan.TextureSize, 0);
@@ -38,7 +48,7 @@ public class CMGTFanManager : MonoBehaviour
             Fan.StartProjection();
             Debug.Log("Connected");
         });
-        yield return new WaitUntil(() => task_start.IsCompleted);
+        //yield return new WaitUntil(() => task_start.IsCompleted);
 
         //Update
         while (isRunning)
@@ -59,20 +69,9 @@ public class CMGTFanManager : MonoBehaviour
                 byte[] array = Jpeg.bytesToJpeg(bytes, fanTexture.width, fanTexture.height, 30);
                 Fan.ProjectOnDisplay(in array);
             }
-            yield return new WaitForSecondsRealtime(0.04f);
-        }
-    }
-
-    void Update()
-    {
-        
-        if (Input.GetKey(KeyCode.W))
-        {
-            Fan.PowerOn();
-        }
-        if (Input.GetKey(KeyCode.V))
-        {
-            Fan.StartProjection();
+            OnTransmition?.Invoke();
+            float delay = transmissionDelay/1000;
+            yield return new WaitForSecondsRealtime(delay);
         }
     }
 
@@ -90,5 +89,7 @@ public class CMGTFanManager : MonoBehaviour
             Fan.Disconnect();
             Debug.Log("Disconnected");
         });
+
+        if(instance == this) instance = null;
     }
 }

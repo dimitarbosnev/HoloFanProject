@@ -18,8 +18,8 @@ namespace CMGT
         public const int UDP_SERVER_PORT_2 = 50105;
         private static readonly IPEndPoint UDP_ENDPOINT = new IPEndPoint(IPAddress.Parse(UDP_SERVER_IP), UDP_SERVER_PORT_1);
         private static readonly byte[] CONNECT_UDP = { 0x68, 0x00, 0x04, 0x00, 0x7f, 0x99, 0x5b, 0x36, 0x34, 0xdc };
-        private static UdpClient udpListener = new UdpClient(UDP_SERVER_PORT_2);
-        private static UdpClient udpSender = new UdpClient();
+        private static UdpClient udpListener = null;
+        private static UdpClient udpSender = null;
 
         //TCP Connection
         public static readonly IPAddress TCP_SERVER_IP = IPAddress.Parse("10.10.10.1");
@@ -78,6 +78,8 @@ namespace CMGT
         {
             try
             {
+                udpListener = new UdpClient(UDP_SERVER_PORT_2);
+                udpSender = new UdpClient();
                 udpSender.Send(CONNECT_UDP, CONNECT_UDP.Length, UDP_ENDPOINT);
 
                 IPEndPoint? sender = null;
@@ -166,6 +168,9 @@ namespace CMGT
             EndProjection();
             socket_1.Close();
             udpListener.Close();
+            udpListener = null;
+            udpSender.Close();
+            udpSender = null;
             isConnected = false;
         }
 
