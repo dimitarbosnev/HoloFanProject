@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using System;
@@ -17,7 +17,6 @@ namespace CMGT
         public const int UDP_SERVER_PORT_1 = 50100;
         public const int UDP_SERVER_PORT_2 = 50105;
         private static readonly IPEndPoint UDP_ENDPOINT = new IPEndPoint(IPAddress.Parse(UDP_SERVER_IP), UDP_SERVER_PORT_1);
-        private static readonly byte[] CONNECT_UDP = { 0x68, 0x00, 0x04, 0x00, 0x7f, 0x99, 0x5b, 0x36, 0x34, 0xdc };
         private static UdpClient udpListener = null;
         private static UdpClient udpSender = null;
 
@@ -74,13 +73,30 @@ namespace CMGT
                 Console.WriteLine("Failed to send data");
             }
         }
+
+        public static byte[] UdpBroadcast(int random)
+{
+	        byte[] array = new byte[10];
+	        array[0] = Protocol.Head;
+	        array[1] = Protocol.UdpBroadcast;
+	        array[2] = 4;
+	        byte[] bytes = TypeConversion.GetBytes(random, true);
+	        array[4] = bytes[0];
+	        array[5] = bytes[1];
+	        array[6] = bytes[2];
+	        array[7] = bytes[3];
+	        AddCrc(array);
+	        return array;
+        }
+
+        private static readonly byte[] UDP_BROADCAST = UdpBroadcast(0);
         public static void Connect()
         {
             try
             {
                 udpListener = new UdpClient(UDP_SERVER_PORT_2);
                 udpSender = new UdpClient();
-                udpSender.Send(CONNECT_UDP, CONNECT_UDP.Length, UDP_ENDPOINT);
+                udpSender.Send(UDP_BROADCAST, UDP_BROADCAST.Length, UDP_ENDPOINT);
 
                 IPEndPoint? sender = null;
                 byte[] recived = udpListener.Receive(ref sender);
@@ -100,7 +116,7 @@ namespace CMGT
 
                 socket_1 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket_1.SendBufferSize = 1024;
-                socket_1.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 10000);
+                socket_1.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 5000);
                 socket_1.Bind(new IPEndPoint(TCP_SERVER_NETCARD, 0));
                 socket_1.Connect(TCP_SERVER_IP, TCP_SERVER_PORT_1);
 
@@ -174,26 +190,27 @@ namespace CMGT
             isConnected = false;
         }
 
-        public static void PowerOn()
+        public static byte[] Power(int isOn)
         {
             byte[] array = new byte[7];
             array[0] = Protocol.Head;
             array[1] = Protocol.OnOff;
             array[2] = 1;
-            array[4] = (byte)(1 & 255);
+            array[4] = (byte)(isOn & 255);
             AddCrc(array);
-            send_command(array);
+            return array;
         }
 
+        private static readonly byte[] POWER_ON = Power(1);
+
+        public static void PowerOn()
+        {
+            send_command(POWER_ON);
+        }
+        private static readonly byte[] POWER_OFF = Power(0);
         public static void PowerOff()
         {
-            byte[] array = new byte[7];
-            array[0] = Protocol.Head;
-            array[1] = Protocol.OnOff;
-            array[2] = 1;
-            array[4] = (byte)(0 & 255);
-            AddCrc(array);
-            send_command(array);
+            send_command(POWER_OFF);
         }
 
 
@@ -207,8 +224,7 @@ namespace CMGT
             AddCrc(array);
             return array;
         }
-
-        private static readonly byte[] PROJECTION = Projection(1);
+        private static readonly byte[] START_PROJECTION = Projection(1);
         public static void StartProjection()
         {
             try
@@ -223,10 +239,9 @@ namespace CMGT
                 }
                 new Thread(() =>
                 {
-
                     while (!isDataReady)
                     {
-                        send_command(PROJECTION);
+                        send_command(START_PROJECTION);
                         Thread.Sleep(2000);
                     }
                     Thread.Sleep(500);
@@ -234,21 +249,18 @@ namespace CMGT
                 }).Start();
 
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            catch (Exception ex) { Console.WriteLine(ex); }
         }
 
         private static readonly byte[] END_PROJECTION = Projection(0);
         public static void EndProjection()
         {
+            send_command(END_PROJECTION);
             if (socket_2 != null)
             {
                 socket_2.Close();
                 socket_2 = null;
             }
-            send_command(END_PROJECTION);
             isProjecting = false;
             isDataReady = false;
         }

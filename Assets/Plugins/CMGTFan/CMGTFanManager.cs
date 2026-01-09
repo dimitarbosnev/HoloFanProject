@@ -19,7 +19,6 @@ public class CMGTFanManager : MonoBehaviour
     [HideInInspector] public Camera targetCamera;
     [HideInInspector] public bool isRunning;
     public int transmissionDelay = 40;
-
     public event Action OnTransmition;
     void Start()
     {
@@ -32,25 +31,12 @@ public class CMGTFanManager : MonoBehaviour
         targetCamera = GetComponent<Camera>();
         targetCamera.targetTexture = fanTexture;
         isRunning = true;
-        StartCoroutine("UpdateFan");
+        ConnectFan();
     }
 
     
     IEnumerator UpdateFan()
     {
-        //Start
-        Task task_start = Task.Run(() =>
-        {
-            Fan.Connect();
-            Thread.Sleep(300);
-            Fan.PowerOn();
-            Thread.Sleep(300);
-            Fan.StartProjection();
-            Debug.Log("Connected");
-        });
-        //yield return new WaitUntil(() => task_start.IsCompleted);
-
-        //Update
         while (isRunning)
         {
             if (Fan.isProjecting)
@@ -70,13 +56,26 @@ public class CMGTFanManager : MonoBehaviour
                 Fan.ProjectOnDisplay(in array);
             }
             OnTransmition?.Invoke();
-            float delay = transmissionDelay/1000;
+            float delay = transmissionDelay/1000.0f;
             yield return new WaitForSecondsRealtime(delay);
         }
     }
+    public void ConnectFan()
+    {
+        StopAllCoroutines();
+        Task task_start = Task.Run(() =>
+        {
+            Fan.Connect();
+            Thread.Sleep(300);
+            Fan.PowerOn();
+            Thread.Sleep(300);
+            Fan.StartProjection();
+            Debug.Log("Connected");
+        });
+        StartCoroutine("UpdateFan");
+    }
 
-    // Update is called once per frame
-    void OnDestroy()
+    public void DisconnecFan()
     {
         isRunning = false;
         //End
@@ -89,6 +88,12 @@ public class CMGTFanManager : MonoBehaviour
             Fan.Disconnect();
             Debug.Log("Disconnected");
         });
+    }
+
+    // Update is called once per frame
+    void OnDestroy()
+    {
+        DisconnecFan();
 
         if(instance == this) instance = null;
     }
