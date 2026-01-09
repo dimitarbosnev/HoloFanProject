@@ -23,31 +23,9 @@ public class TestCase2_Script : MonoBehaviour
         text.text = "Warning flashing screen!\nTest is about to begin...";
         yield return new WaitForSecondsRealtime(2);
         
-        yield return StartCoroutine("SequanceRoutine", 0);
-        yield return StartCoroutine("SequanceRoutine", 5);
-        yield return StartCoroutine("SequanceRoutine", 10);
-        yield return StartCoroutine("SequanceRoutine", 15);
-        yield return StartCoroutine("SequanceRoutine", 20);
-        yield return StartCoroutine("SequanceRoutine", 25);
-        yield return StartCoroutine("SequanceRoutine", 30);
-        yield return StartCoroutine("SequanceRoutine", 35);
-        yield return StartCoroutine("SequanceRoutine", 40);
-        yield return StartCoroutine("SequanceRoutine", 45);
-        yield return StartCoroutine("SequanceRoutine", 50);
-        yield return StartCoroutine("SequanceRoutine", 55);
-        yield return StartCoroutine("SequanceRoutine", 60);
-        yield return StartCoroutine("SequanceRoutine", 65);
-        yield return StartCoroutine("SequanceRoutine", 70);
-        yield return StartCoroutine("SequanceRoutine", 75);
-        yield return StartCoroutine("SequanceRoutine", 80);
-        yield return StartCoroutine("SequanceRoutine", 85);
-        yield return StartCoroutine("SequanceRoutine", 90);
-        yield return StartCoroutine("SequanceRoutine", 95);
-        yield return StartCoroutine("SequanceRoutine", 100);
-        yield return StartCoroutine("SequanceRoutine", 105);
-        yield return StartCoroutine("SequanceRoutine", 110);
-        yield return StartCoroutine("SequanceRoutine", 115);
-        yield return StartCoroutine("SequanceRoutine", 120);
+        for(int i = 0; i <= 80; i += 5)
+        yield return StartCoroutine("SequanceRoutine", i);
+
         CMGTFanManager.Instance.OnTransmition -= ColorSwapOnTransmition;
     }
 
