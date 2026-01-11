@@ -1,17 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using CMGT;
 using TMPro;
 using UnityEngine;
 
 public class TestCase2_Script : MonoBehaviour
 {
     public TMP_Text text;
-    // Start is called before the first frame update
-    void Start()
-    {
-        CMGTFanManager.Instance.transmissionDelay = 0;
-
-    }
 
     public void StartTest()
     {

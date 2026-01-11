@@ -6,12 +6,6 @@ using UnityEngine;
 public class TestCase1_Script : MonoBehaviour
 {
     public TMP_Text text;
-    // Start is called before the first frame update
-    void Start()
-    {
-        //CMGTFanManager.Instance.transmissionDelay = 0;
-    }
-
     public void StartTest()
     {
         StartCoroutine("TestCase1Func");

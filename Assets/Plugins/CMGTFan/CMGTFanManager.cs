@@ -66,9 +66,9 @@ public class CMGTFanManager : MonoBehaviour
         Task task_start = Task.Run(() =>
         {
             Fan.Connect();
-            Thread.Sleep(300);
+            Thread.Sleep(500);
             Fan.PowerOn();
-            Thread.Sleep(300);
+            Thread.Sleep(500);
             Fan.StartProjection();
             Debug.Log("Connected");
         });
