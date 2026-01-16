@@ -5,13 +5,19 @@ using UnityEngine.Experimental.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+[RequireComponent(typeof(Camera))]
 public class CMGTFanManager : MonoBehaviour
 {
     private static CMGTFanManager instance = null;
     public static CMGTFanManager Instance => instance;
     void Awake()
     {
-        if(instance == null) instance = this;
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+            
         else Destroy(this);
     }
 

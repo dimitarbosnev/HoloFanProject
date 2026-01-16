@@ -8,10 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestTestCasesScene.unity
     guid: cb94c28f2f91b89478a8156a88e02371
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestCase1.unity
     guid: 47dcccabed79a564e970514363e7fbaf
   - enabled: 0
     path: Assets/Scenes/TestCase2.unity
     guid: 19b9d16740c517244abcb97984bf5dc7
+  - enabled: 1
+    path: Assets/Scenes/TestScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/SlashNinja.unity
+    guid: 7ecf84b7b0ffc374d99ef64d52e0f646
   m_configObjects: {}
