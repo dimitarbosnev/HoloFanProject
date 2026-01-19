@@ -19,7 +19,8 @@ public class NinjaSpawner : MonoBehaviour
     IEnumerator SpawnObjects()
     {
         yield return new WaitForSeconds(2.0f);
-        while (true)
+        NinjaGameManager.Instance.isRunning = true;
+        while (NinjaGameManager.Instance.time > 0f)
         {
             float min_max = size.x / 2;
             float PosX = Random.Range(-min_max, min_max);
@@ -30,6 +31,7 @@ public class NinjaSpawner : MonoBehaviour
             float time = Random.Range(timeMinMax.x, timeMinMax.y);
             yield return new WaitForSeconds(time);
         }
+        NinjaGameManager.Instance.OnTimerEnd();
     }
 
     void OnDestroy()

@@ -12,7 +12,11 @@ public class SlashableObject : MonoBehaviour
     void SlashObject(GameObject obj)
     {
         obj.GetComponent<Renderer>().material.color = Color.red;
-        obj.layer = slashedLayer;
+        if(obj.layer != slashedLayer)
+        {
+            obj.layer = slashedLayer;
+            NinjaGameManager.Instance.UpdateCounter();
+        }
     }
 
     void OnTriggerEnter(Collider other)
