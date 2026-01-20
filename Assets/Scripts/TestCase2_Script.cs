@@ -21,18 +21,18 @@ public class TestCase2_Script : MonoBehaviour
         for(int i = 0; i <= 80; i += 5)
         yield return StartCoroutine("SequanceRoutine", i);
 
-        CMGTFanManager.Instance.OnTransmition -= ColorSwapOnTransmition;
+        CMGTFanManager.PostTransmition -= ColorSwapOnTransmition;
     }
 
     IEnumerator SequanceRoutine(int delay)
     {
-        CMGTFanManager.Instance.transmissionDelay = delay;
-        text.text = "Transmission Delay: " + CMGTFanManager.Instance.transmissionDelay;
+        CMGTFanManager.transmissionDelay = delay;
+        text.text = "Transmission Delay: " + CMGTFanManager.transmissionDelay;
         index = 0;
-        CMGTFanManager.Instance.OnTransmition -= ColorSwapOnTransmition;
+        CMGTFanManager.PostTransmition -= ColorSwapOnTransmition;
         SwapBackgroundcolor(new Color(0.1921569f,0.3019608f,0.4745098f));
         yield return new WaitForSecondsRealtime(2);
-        CMGTFanManager.Instance.OnTransmition += ColorSwapOnTransmition;
+        CMGTFanManager.PostTransmition += ColorSwapOnTransmition;
         yield return new WaitForSecondsRealtime(2);
     }
 
@@ -48,12 +48,12 @@ public class TestCase2_Script : MonoBehaviour
     
     void SwapBackgroundcolor(Color color)
     {
-        CMGTFanManager.Instance.targetCamera.backgroundColor = color;
+        CMGTFanManager.targetCamera.backgroundColor = color;
         Camera.main.backgroundColor = color;
     }
 
     void OnDestroy()
     {
-        CMGTFanManager.Instance.OnTransmition -= ColorSwapOnTransmition;
+        CMGTFanManager.PostTransmition -= ColorSwapOnTransmition;
     }
 }

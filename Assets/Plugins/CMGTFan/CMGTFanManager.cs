@@ -1,13 +1,15 @@
 using UnityEngine;
 using CMGT;
-using System.Collections;
 using UnityEngine.Experimental.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using System.Collections;
 [RequireComponent(typeof(Camera))]
 public class CMGTFanManager : MonoBehaviour
 {
+    private bool disconnectOnDestroy = true;
+
     private static CMGTFanManager instance = null;
     public static CMGTFanManager Instance => instance;
     void Awake()
@@ -16,16 +18,20 @@ public class CMGTFanManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this);
+        }     
+        else 
+        {
+            disconnectOnDestroy = false;
+            Destroy(this);
         }
-            
-        else Destroy(this);
     }
 
-    [HideInInspector] public RenderTexture fanTexture;
-    [HideInInspector] public Camera targetCamera;
-    [HideInInspector] public bool isRunning;
-    public int transmissionDelay = 40;
-    public event Action OnTransmition;
+    public static RenderTexture fanTexture;
+    public static byte[] textureBytes = new byte[24 * Fan.TextureSize * Fan.TextureSize];
+    public static Camera targetCamera;
+    public static bool isRunning;
+    public static int transmissionDelay = 40;
+    public static event Action PostTransmition;
     void Start()
     {
         fanTexture = new RenderTexture(Fan.TextureSize, Fan.TextureSize, 0);
@@ -40,31 +46,37 @@ public class CMGTFanManager : MonoBehaviour
         ConnectFan();
     }
 
+    static void Transmit()
+    {
+        byte[] array = Jpeg.bytesToJpeg(textureBytes, Fan.TextureSize, Fan.TextureSize, 30);
+        Fan.ProjectOnDisplay(in array);
+    }
+
     
     IEnumerator UpdateFan()
     {
         while (isRunning)
         {
             if (Fan.isProjecting)
-            {
-                RenderTexture flippedRT = new RenderTexture(fanTexture.width, fanTexture.height, 0);
-                Graphics.Blit(fanTexture, flippedRT, new Vector2(1, -1), new Vector2(0, 1));
-
-                RenderTexture.active = flippedRT;
-                Texture2D tex = new Texture2D(fanTexture.width, fanTexture.height, TextureFormat.RGB24, false);
-                tex.ReadPixels(new Rect(0, 0, fanTexture.width, fanTexture.height), 0, 0, false);
-                tex.Apply();
-
-                byte[] bytes = tex.GetRawTextureData();
-                RenderTexture.active = null;
-                
-                byte[] array = Jpeg.bytesToJpeg(bytes, fanTexture.width, fanTexture.height, 30);
-                Fan.ProjectOnDisplay(in array);
+            {    
+                Task.Run(Transmit);
             }
-            OnTransmition?.Invoke();
+            PostTransmition?.Invoke();
             float delay = transmissionDelay/1000.0f;
             yield return new WaitForSecondsRealtime(delay);
         }
+    }
+
+    void OnPostRender()
+    {
+        RenderTexture flippedRT = new RenderTexture(fanTexture.width, fanTexture.height, 0);
+        Graphics.Blit(fanTexture, flippedRT, new Vector2(1, -1), new Vector2(0, 1));
+        RenderTexture.active = flippedRT;
+        Texture2D tex = new Texture2D(fanTexture.width, fanTexture.height, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, fanTexture.width, fanTexture.height), 0, 0, false);
+        tex.Apply();
+        tex.GetRawTextureData().CopyTo(textureBytes,0);
+        RenderTexture.active = null;
     }
     public void ConnectFan()
     {
@@ -99,7 +111,8 @@ public class CMGTFanManager : MonoBehaviour
     // Update is called once per frame
     void OnDestroy()
     {
-        DisconnecFan();
+        if(disconnectOnDestroy)
+            DisconnecFan();
 
         if(instance == this) instance = null;
     }

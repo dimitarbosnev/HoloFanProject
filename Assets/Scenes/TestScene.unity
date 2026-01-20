@@ -5003,6 +5003,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1599135942133145903, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
+      propertyPath: spin_friction
+      value: 0.998
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599135942133145903, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
+      propertyPath: spin_force_min
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5144402257835997798, guid: 0a3b0f27e7c2805488db01f625d7858d, type: 3}
       propertyPath: m_Name
       value: Wheel

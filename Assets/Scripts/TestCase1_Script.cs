@@ -23,8 +23,8 @@ public class TestCase1_Script : MonoBehaviour
     IEnumerator SequanceRoutine(int delay)
     {
         SwapBackgroundcolor(new Color(0.1921569f,0.3019608f,0.4745098f));
-        CMGTFanManager.Instance.transmissionDelay = delay;
-        text.text = "Transmission Delay: " + CMGTFanManager.Instance.transmissionDelay;
+        CMGTFanManager.transmissionDelay = delay;
+        text.text = "Transmission Delay: " + CMGTFanManager.transmissionDelay;
         yield return new WaitForSecondsRealtime(2);
         SwapBackgroundcolor(Color.red);
         yield return new WaitForSecondsRealtime(2);
@@ -35,7 +35,7 @@ public class TestCase1_Script : MonoBehaviour
     
     void SwapBackgroundcolor(Color color)
     {
-        CMGTFanManager.Instance.targetCamera.backgroundColor = color;
+        CMGTFanManager.targetCamera.backgroundColor = color;
         Camera.main.backgroundColor = color;
     }
 }
