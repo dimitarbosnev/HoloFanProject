@@ -64,6 +64,8 @@ public class NinjaGameManager : MonoBehaviour
         gameOver.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         //High scores
+        
+        //Go back to scene
         SceneManager.LoadScene("TestScene");
     }
 
