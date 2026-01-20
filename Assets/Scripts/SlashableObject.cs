@@ -16,7 +16,13 @@ public class SlashableObject : MonoBehaviour
         {
             obj.layer = slashedLayer;
             NinjaGameManager.Instance.UpdateCounter();
+            Invoke(nameof(Delete), 1f); 
         }
+    }
+
+    void Delete()
+    {
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider other)

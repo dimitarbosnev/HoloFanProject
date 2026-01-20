@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine;
 
@@ -7,6 +7,7 @@ public class NinjaGameManager : MonoBehaviour
 {
     public TMP_Text timer;
     public TMP_Text counter;
+    public TMP_Text gameOver;
 
     public float time = 180f;
     [HideInInspector] public int count = -1;
@@ -17,7 +18,7 @@ public class NinjaGameManager : MonoBehaviour
     void Awake()
     {
         if(instance == null) instance = this;          
-        else Destroy(this);
+        else Destroy(gameObject);
     }
     // Start is called before the first frame update
     void Start()
@@ -55,7 +56,15 @@ public class NinjaGameManager : MonoBehaviour
 
     public void OnTimerEnd()
     {
-        
+        StartCoroutine(nameof(EndMiniGame));
+    }
+
+    IEnumerator EndMiniGame()
+    {
+        gameOver.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        //High scores
+        SceneManager.LoadScene("TestScene");
     }
 
     public void UpdateCounter()

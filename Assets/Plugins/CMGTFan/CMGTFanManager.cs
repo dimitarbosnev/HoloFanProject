@@ -22,7 +22,7 @@ public class CMGTFanManager : MonoBehaviour
         else 
         {
             disconnectOnDestroy = false;
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
@@ -90,7 +90,7 @@ public class CMGTFanManager : MonoBehaviour
             Fan.StartProjection();
             Debug.Log("Connected");
         });
-        StartCoroutine("UpdateFan");
+        StartCoroutine(nameof(UpdateFan));
     }
 
     public void DisconnecFan()
