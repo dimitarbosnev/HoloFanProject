@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -32,5 +33,34 @@ public static class SaveSystem<T> where T : struct
 [System.Serializable]
 public struct HighScoreData
 {
-    public int[] scores;
+    public int score1;
+    public int score2;
+    public int score3;
+    public int score4;
+    public int score5;
+
+    public int this[int index]
+    {
+        get => index switch
+        {
+            0 => score1,
+            1 => score2,
+            2 => score3,
+            3 => score4,
+            4 => score5,
+            _ => throw new IndexOutOfRangeException()
+        };
+        set
+        {
+            switch (index)
+            {
+                case 0: score1 = value; break;
+                case 1: score2 = value; break;
+                case 2: score3 = value; break;
+                case 3: score4 = value; break;
+                case 4: score5 = value; break;
+                default: throw new IndexOutOfRangeException();
+            }
+        }
+    }
 }

@@ -26,8 +26,8 @@ public class TestCase2_Script : MonoBehaviour
 
     IEnumerator SequanceRoutine(int delay)
     {
-        CMGTFanManager.transmissionDelay = delay;
-        text.text = "Transmission Delay: " + CMGTFanManager.transmissionDelay;
+        CMGTFanManager.Instance.transmissionDelay = delay;
+        text.text = "Transmission Delay: " + CMGTFanManager.Instance.transmissionDelay;
         index = 0;
         CMGTFanManager.PostTransmition -= ColorSwapOnTransmition;
         SwapBackgroundcolor(new Color(0.1921569f,0.3019608f,0.4745098f));

@@ -171,63 +171,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &519375054
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 485858123205850645, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_Name
-      value: FanCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939466634828056667, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 351cc9e03a5a9d740bf94bf6a2745e51, type: 3}
 --- !u!1001 &672600904
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -614,10 +557,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1907861007}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 330, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1374439743
 MonoBehaviour:
@@ -639,7 +582,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Over
+  m_text: GAME OVER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -666,14 +609,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 16
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1706,7 +1649,7 @@ MonoBehaviour:
   timer: {fileID: 699822476}
   counter: {fileID: 2126261208}
   gameOver: {fileID: 1374439743}
-  time: 60
+  time: 10
   count: 0
   isRunning: 0
 --- !u!1 &1922525385
@@ -1949,4 +1892,3 @@ SceneRoots:
   - {fileID: 1420456995}
   - {fileID: 1907861007}
   - {fileID: 1474064147}
-  - {fileID: 519375054}

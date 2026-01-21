@@ -9,6 +9,7 @@ using System.Collections;
 public class CMGTFanManager : MonoBehaviour
 {
     private bool disconnectOnDestroy = true;
+    public int transmissionDelay = 35;
 
     private static CMGTFanManager instance = null;
     public static CMGTFanManager Instance => instance;
@@ -30,7 +31,6 @@ public class CMGTFanManager : MonoBehaviour
     public static byte[] textureBytes = new byte[24 * Fan.TextureSize * Fan.TextureSize];
     public static Camera targetCamera;
     public static bool isRunning;
-    public static int transmissionDelay = 40;
     public static event Action PostTransmition;
     void Start()
     {
@@ -50,18 +50,20 @@ public class CMGTFanManager : MonoBehaviour
     {
         byte[] array = Jpeg.bytesToJpeg(textureBytes, Fan.TextureSize, Fan.TextureSize, 30);
         Fan.ProjectOnDisplay(in array);
+        PostTransmition?.Invoke();
     }
 
-    
+    public static Task transmit = null;
     IEnumerator UpdateFan()
     {
         while (isRunning)
         {
             if (Fan.isProjecting)
             {    
-                Task.Run(Transmit);
+                if(transmit!= null)
+                    transmit.Wait();
+                transmit = Task.Run(Transmit);
             }
-            PostTransmition?.Invoke();
             float delay = transmissionDelay/1000.0f;
             yield return new WaitForSecondsRealtime(delay);
         }
