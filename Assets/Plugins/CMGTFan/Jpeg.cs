@@ -31,12 +31,12 @@ namespace CMGT
                 void* value = (void*)ptr;
                 rgbBuf = (IntPtr)value;
             }
-            byte[] result = tjCompress(handle, rgbBuf, width, pitch, height, (int)TJPixelFormats.TJPF_RGB, 2, quality, 0);
+            byte[] result = tjCompress(handle, rgbBuf, width, pitch, height, (int)TJPixelFormats.TJPF_RGB, (int)TJSubsamplingOptions.TJSAMP_420, quality, 0);
             tjDestroy(handle);
             return result;
         }
 
-        public unsafe static void BytesSaveToJpeg(byte[] bytes, int width, int height, string path, int quality)
+        public unsafe static void BytesSaveToJpeg(byte[] bytes, int width, int height, int quality, string path)
         {
             byte[] array = bytesToJpeg(bytes, width, height, quality);
             FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);

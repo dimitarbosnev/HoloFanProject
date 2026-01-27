@@ -6,7 +6,7 @@ public static class SaveSystem<T> where T : struct
 {
     static string Path()
     {
-        return System.IO.Path.Combine(Application.persistentDataPath, nameof(T) + ".json");
+        return System.IO.Path.Combine(Application.dataPath, nameof(T) + ".json");
     } 
 
     public static void Save(T data)
@@ -17,7 +17,7 @@ public static class SaveSystem<T> where T : struct
 
     public static T Read()
     {
-        string path = System.IO.Path.Combine(Application.persistentDataPath, nameof(T) + ".json");
+        string path = Path();
 
         if (!File.Exists(path))
         {
@@ -64,3 +64,4 @@ public struct HighScoreData
         }
     }
 }
+

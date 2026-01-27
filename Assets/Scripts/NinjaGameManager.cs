@@ -95,11 +95,11 @@ public class NinjaGameManager : MonoBehaviour
             data[i-1] = scores[i];
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(10f);
         SaveSystem<HighScoreData>.Save(data);
 
         //Go back to scene
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadSceneAsync("TestScene");
     }
 
     public void UpdateCounter()

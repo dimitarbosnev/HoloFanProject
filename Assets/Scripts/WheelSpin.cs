@@ -10,19 +10,18 @@ public class WheelSpin : MonoBehaviour
     [SerializeField] private float spin_force_min = 0.5f;
     [SerializeField] private float spin_threshold = 1;
     [SerializeField] private List<UnityEvent> events;
-    [SerializeField, ReadOnly(true)] private int value = 0;
-    [SerializeField, ReadOnly(true)] private Vector3 torque;
-    public UnityAction action;
 
     private bool isRunning = false;
     private Rigidbody rb;
     private BoxCollider Collider;
-
+    private AudioSource source;
+    private int section;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         Collider = GetComponent<BoxCollider>();
+        source = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -41,7 +40,7 @@ public class WheelSpin : MonoBehaviour
         else if (Mathf.Abs(rb.angularVelocity.z) < spin_threshold && isRunning)
         {
             float sction_degrees = 360 / events.Count;
-            value = (int)(transform.eulerAngles.z / sction_degrees);
+            int value = (int)(transform.eulerAngles.z / sction_degrees);
             rb.angularVelocity = Vector3.zero;
             isRunning = false;
             Collider.enabled = true;
@@ -49,7 +48,16 @@ public class WheelSpin : MonoBehaviour
             events[value]?.Invoke();
         }
 
-        torque = rb.angularVelocity;
+        if (isRunning)
+        {
+            float sction_degrees = 360 / events.Count;
+            int value = (int)(transform.eulerAngles.z / sction_degrees);
+            if(section != value)
+            {
+                source.Play();
+                section = value;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -62,7 +70,7 @@ public class WheelSpin : MonoBehaviour
 
     public void MiniGame()
     {
-        SceneManager.LoadScene("SlashNinja");
+        SceneManager.LoadSceneAsync("SlashNinja");
     }
 
     public void Fact()
