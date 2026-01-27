@@ -70,20 +70,40 @@ public class WheelSpin : MonoBehaviour
 
     public void MiniGame()
     {
+        Invoke(nameof(LoadScene), 1f);
+
+    }
+    private void LoadScene()
+    {
         SceneManager.LoadSceneAsync("SlashNinja");
     }
 
     public void Fact()
+    {
+        Invoke(nameof(ShowFact), 1f);
+    }
+
+    private void ShowFact()
     {
         
     }
 
     public void Sticker()
     {
+        Invoke(nameof(ShowSticker), 1f);
+    }
+
+    private void ShowSticker()
+    {
         
     }
 
     public void Nothing()
+    {
+        Invoke(nameof(ShowNothing), 1f);
+    }
+
+    private void ShowNothing()
     {
         
     }

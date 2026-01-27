@@ -45,7 +45,6 @@ public class NinjaGameManager : MonoBehaviour
         if (time <= 0f)
         {
             isRunning = false;
-            OnTimerEnd();
         }
     }
 
@@ -80,23 +79,23 @@ public class NinjaGameManager : MonoBehaviour
             index = ~index; // bitwise complement gives insertion position
 
         scores.Insert(index, count);
-        
-        string highscore = "HIGH SCORES\n\n";
-        highscore = string.Concat(highscore, "1st ",   index == 5? "YOU " : "", scores[5].ToString());
-        highscore = string.Concat(highscore, "\n2nd ", index == 4? "YOU " : "", scores[4].ToString());
-        highscore = string.Concat(highscore, "\n3rd ", index == 3? "YOU " : "", scores[3].ToString());
-        highscore = string.Concat(highscore, "\n4th ", index == 2? "YOU " : "", scores[2].ToString());
-        highscore = string.Concat(highscore, "\n5th ", index == 1? "YOU " : "", scores[1].ToString());
-        highscore = string.Concat(highscore, "\nYOU ", count);
-
-        gameOver.text = highscore;
         for(int i = 5; i > 0; i--)
         {
             data[i-1] = scores[i];
         }
+        SaveSystem<HighScoreData>.Save(data);
+        string highscore = "HIGH SCORES\n\n";
+        highscore = string.Concat(highscore, "1st ",   index == 5? "YOU " : "", data[4].ToString());
+        highscore = string.Concat(highscore, "\n2nd ", index == 4? "YOU " : "", data[3].ToString());
+        highscore = string.Concat(highscore, "\n3rd ", index == 3? "YOU " : "", data[2].ToString());
+        highscore = string.Concat(highscore, "\n4th ", index == 2? "YOU " : "", data[1].ToString());
+        highscore = string.Concat(highscore, "\n5th ", index == 1? "YOU " : "", data[0].ToString());
+        highscore = string.Concat(highscore, "\nYOU ", count);
+
+        gameOver.text = highscore;
+
 
         yield return new WaitForSeconds(10f);
-        SaveSystem<HighScoreData>.Save(data);
 
         //Go back to scene
         SceneManager.LoadSceneAsync("TestScene");

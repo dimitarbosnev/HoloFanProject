@@ -17,7 +17,7 @@ public class SlashableObject : MonoBehaviour
             obj.layer = slashedLayer;
             NinjaGameManager.Instance.UpdateCounter();
             GetComponent<AudioSource>().Play();
-            Invoke(nameof(Delete), 1f); 
+            Invoke(nameof(Delete), 2f); 
         }
     }
 
